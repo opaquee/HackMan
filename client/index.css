@@ -3,7 +3,7 @@ body {
 }
 
 #map {
-    position: absolute;
+    position: relative;
 }
 
 .row {
@@ -24,4 +24,10 @@ body {
 .sprite {
     position: relative;
     display: block;
+}
+
+#pacmen {
+    position: relative;
+    display: inline-block;
+    color: white;
 }
