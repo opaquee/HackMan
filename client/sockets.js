@@ -1,4 +1,6 @@
-const socket = window.io('ws://localhost:8080/echo');
+// const socket = window.io('ws://localhost:8080/echo');
+
+var socket = new WebSocket('ws://localhost:8080/echo');
 
 /*
 socket.on("connect", () => {
@@ -15,6 +17,14 @@ socket.on("disconnect", () => {
 });
 */
 
-socket.onopen = () => {
-  console.log("Connected boi");
+socket.onopen = function () {
+ console.log("connected");
+};
+
+socket.onmessage = function (e) {
+  console.log(`Server: ${e.data}`);
+};
+
+function send() {
+  socket.send("Ay wassup");
 };
