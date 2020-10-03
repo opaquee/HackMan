@@ -3,15 +3,17 @@
     <title>HackMan</title>
     <link rel="shortcut icon" href="./assets/logos/pacman-logo.png" />
     <meta charset="UTF-8" />
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@1.4.0/socket.io.js"></script>
+    <link rel="stylesheet" href="index.css" />
   </head>
 
   <body>
+    <div id="map"></div>
     <h1>Let's test out some websockets!</h1>
     <div id="test">
       <button type="button" id="leftButton">Left</button>
       <button type="button" id="rightButton">Right</button>
     </div>
+    <script src="bundle.js"></script>
   </body>
 
   <script src="./sockets.js"></script>
