@@ -1,30 +1,33 @@
-// const socket = window.io('ws://localhost:8080/echo');
+const socket = window.io('ws://localhost:8080/echo');
 
-var socket = new WebSocket('ws://localhost:8080/echo');
-
-/*
 socket.on("connect", () => {
-  socket.send('Hello from the client!');
-  console.log("Socket connected!");
+  console.log("Client connected!");
 });
 
-socket.on("event", () => {
-  console.log(`Receiving data: ${data}`);
+// TODO: Listen to heartbeat data
+socket.on('heartbeat', (data) => {
+  console.log(data);
 });
 
 socket.on("disconnect", () => {
-  console.log("Socket disconnected");
+  console.log("Client disconnected from server.");
 });
-*/
 
-socket.onopen = function () {
- console.log("connected");
-};
+const move = (direction) => {
+  switch(direction) {
+    case 'left':
+      socket.emit('onMoveLeft', 'onMoveLeft');
+      break
+    case 'right':
+      socket.emit('onMoveRight', 'onMoveRight');
+      break
+    default:
+      break
+  }
+}
 
-socket.onmessage = function (e) {
-  console.log(`Server: ${e.data}`);
-};
+const leftButton = document.getElementById("leftButton");
+const rightButton = document.getElementById("rightButton");
 
-function send() {
-  socket.send("Ay wassup");
-};
+leftButton.addEventListener("click", helloWorld);
+rightButton.addEventListener("click", helloWorld);
