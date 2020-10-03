@@ -2,6 +2,7 @@ let map;
 let id;
 let x;
 let y;
+let ghosts = 1;
 
 const removeAllChildNodes = (parent) => {
     while (parent.firstChild) {
@@ -89,7 +90,7 @@ document.addEventListener("keydown", event => {
         else if (x - 1 >= 0 && map[x-1][y] >= 200 && id < 200) {
             deleteMap();
             map[x][y] = 0;
-            id = 201;
+            id = 200 + ghosts++;
             x = 7;
             y = 7;
             map[x][y] = id;
@@ -109,7 +110,7 @@ document.addEventListener("keydown", event => {
         else if (y >= 0 && map[x][y-1] >= 200 && id < 200) {
             deleteMap();
             map[x][y] = 0;
-            id = 201;
+            id = 200 + ghosts++;
             x = 7;
             y = 7;
             map[x][y] = id;
@@ -129,7 +130,7 @@ document.addEventListener("keydown", event => {
         else if (x < map[x].length && map[x+1][y] >= 200 && id < 200) {
             deleteMap();
             map[x][y] = 0;
-            id = 201;
+            id = 200 + ghosts++;
             x = 7;
             y = 7;
             map[x][y] = id;
@@ -149,12 +150,11 @@ document.addEventListener("keydown", event => {
         else if (y < map[x].length && map[x][y+1] >= 200 && id < 200) {
             deleteMap();
             map[x][y] = 0;
-            id = 201;
+            id = 200 + ghosts++;
             x = 7;
             y = 7;
             map[x][y] = id;
             createMap();
         }
     }
-    console.log(x, y);
 });
