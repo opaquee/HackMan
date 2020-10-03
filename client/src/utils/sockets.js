@@ -5,7 +5,7 @@ socket.on("connect", () => {
   console.log("Socket connected!");
 });
 
-socket.on("event", () => {
+socket.on("heartbeat", (data) => {
   console.log(`Receiving data: ${data}`);
 });
 

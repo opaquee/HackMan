@@ -1,3 +1,5 @@
+import pacmanImg from "../assets/sprites/pacman.png";
+
 let map;
 let id;
 let x;
@@ -22,7 +24,7 @@ const createMap = () => {
             }
             else if (map[i][j] >= 100 && map[i][j] < 200) {
                 const pacman = document.createElement("IMG");
-                pacman.setAttribute("src", "./assets/sprites/pacman.png");
+                pacman.setAttribute("src", pacmanImg);
                 pacman.setAttribute("width", "100%");
                 pacman.setAttribute("height", "100%");
                 pacman.classList.add("sprite");
@@ -115,3 +117,5 @@ document.addEventListener("keydown", event => {
     }
     console.log(x, y);
 });
+
+main();
