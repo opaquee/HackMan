@@ -1,5 +1,6 @@
 require("file-loader?name=[name].[ext]!../index.html");
 import pacmanImg from "../assets/sprites/pacman.png";
+import pinkGhost from "../assets/sprites/pink_ghost.png";
 import "../index.css";
 
 let map;
@@ -57,14 +58,14 @@ const createMap = () => {
       } else if (map[i][j] >= 100) {
         if (getPlayer(map[i][j]).isGhost) {
           const ghost = document.createElement("IMG");
-          ghost.setAttribute("src", "./assets/sprites/pink_ghost.png");
+          ghost.setAttribute("src", pinkGhost);
           ghost.setAttribute("width", "100%");
           ghost.setAttribute("height", "100%");
           ghost.classList.add("sprite");
           el.append(ghost);
         } else {
           const pacman = document.createElement("IMG");
-          pacman.setAttribute("src", "./assets/sprites/pacman.png");
+          pacman.setAttribute("src", pacmanImg);
           pacman.setAttribute("width", "100%");
           pacman.setAttribute("height", "100%");
           pacman.classList.add("sprite");
@@ -284,3 +285,5 @@ document.addEventListener("keydown", (event) => {
     }
   }
 });
+
+main();
