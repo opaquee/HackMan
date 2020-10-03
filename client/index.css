@@ -25,3 +25,8 @@ body {
     position: relative;
     display: block;
 }
+
+#extra {
+    position: relative;
+    display: inline-block; 
+}

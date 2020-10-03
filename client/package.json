@@ -7,7 +7,9 @@
     "move": "cp -r dist/ ../server/public",
     "build": "webpack && yarn run move"
   },
-  "dependencies": {},
+  "dependencies": {
+    "socket.io-client": "^2.3.1"
+  },
   "devDependencies": {
     "css-loader": "^4.3.0",
     "file-loader": "^6.1.0",

@@ -1,4 +1,7 @@
 require("file-loader?name=[name].[ext]!../index.html");
+
+import "./utils/sockets";
+
 import pacmanImg from "../assets/sprites/pacman.png";
 import pinkGhost from "../assets/sprites/pink_ghost.png";
 import "../index.css";
