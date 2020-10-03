@@ -2,45 +2,42 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
-	"github.com/gorilla/websocket"
+	socketio "github.com/googollee/go-socket.io"
 )
 
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
-
 func main() {
-	http.HandleFunc("/echo", func(w http.ResponseWriter, r *http.Request) {
-		conn, err := upgrader.Upgrade(w, r, nil)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
+	server, err := socketio.NewServer(nil)
+	if err != nil {
+		panic(err)
+	}
 
-		for {
-			msgType, msg, err := conn.ReadMessage()
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-
-			fmt.Printf("%s sent: %s\n", conn.RemoteAddr(), string(msg))
-			if err = conn.WriteMessage(msgType, msg); err != nil {
-				fmt.Println(err)
-				return
-			}
-		}
+	server.OnConnect("/", func(s socketio.Conn) error {
+		fmt.Println("connected:", s.ID())
+		return nil
 	})
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "websockets.html")
+	server.OnEvent("/", "move", func(s socketio.Conn, msg string) {
+		fmt.Println("move:", msg)
+		s.Emit("heartbeat", "player position data goes here")
 	})
 
-	http.ListenAndServe(":8080", nil)
+	server.OnError("/", func(s socketio.Conn, e error) {
+		fmt.Println("Error:", e)
+	})
+
+	server.OnDisconnect("/", func(s socketio.Conn, reason string) {
+		fmt.Println("closed", reason)
+	})
+
+	go server.Serve()
+	defer server.Close()
+
+	http.Handle("/socket.io/", server)
+	http.Handle("/", http.FileServer(http.Dir("../asset")))
+
+	log.Println("Serving at localhost:8080...")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
