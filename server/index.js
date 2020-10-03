@@ -1,10 +1,13 @@
 var express = require("express");
 var http =  require("http");
+var path = require("path");
 
 const app = express();
-app.use('/static', express.static(path.join(__dirname, 'public')))
-const server = http.createServer(app);
-
+const port = 8080;
+app.use(express.static(path.join(__dirname, 'public')));
+app.listen(port, () => console.log("Listening on port 8080"));
+//const server = http.createServer(app);
+/*
 const sio = require("socket.io")(server, {
     handlePreflightRequest: (req, res) => {
         const headers = {
@@ -20,5 +23,6 @@ const sio = require("socket.io")(server, {
 sio.on("connection", () => {
     console.log("Connected!");
 });
+*/
 
-server.listen(8080);
+//server.listen(8080);
