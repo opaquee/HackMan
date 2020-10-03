@@ -1,4 +1,6 @@
+require('file-loader?name=[name].[ext]!../index.html');
 import pacmanImg from "../assets/sprites/pacman.png";
+import '../index.css';
 
 let map;
 let id;
