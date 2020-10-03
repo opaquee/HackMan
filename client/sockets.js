@@ -1,4 +1,3 @@
-/*
 const socket = window.io('ws://localhost:8080/echo`');
 
 socket.on("connect", () => {
@@ -13,8 +12,7 @@ socket.on("event", () => {
 socket.on("disconnect", () => {
   console.log("Socket disconnected");
 });
-*/
-
+/*
 var input = document.getElementById("input");
 var output = document.getElementById("output");
 var socket = new WebSocket("ws://localhost:8080/echo");
@@ -31,3 +29,4 @@ function send() {
     socket.send(input.value);
     input.value = "";
 }
+*/
