@@ -1,21 +1,12 @@
 <html>
   <head>
     <title>HackMan</title>
-    <link rel="shortcut icon" href="./assets/logos/pacman-logo.png" />
+    <link rel="shortcut icon" href="{%=o.htmlWebpackPlugin.files.favicon%}" />
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="index.css" />
   </head>
 
   <body>
     <div id="map"></div>
-    <div id="extra">
-      <h1>Let's test out some websockets!</h1>
-      <div id="test">
-        <button type="button" id="leftButton">Left</button>
-        <button type="button" id="rightButton">Right</button>
-      </div>
-    </div>
     <script src="bundle.js"></script>
   </body>
-
 </html>

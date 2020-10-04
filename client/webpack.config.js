@@ -1,3 +1,4 @@
+var HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
@@ -19,4 +20,9 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      favicon: "./assets/logos/pacman-logo.png",
+    }),
+  ],
 };
