@@ -8,6 +8,18 @@ import (
 	socketio "github.com/googollee/go-socket.io"
 )
 
+type player struct {
+	id    int  // `json:"id"`
+	ghost bool // `json:"ghost"`
+	x     int  // `json:"x"`
+	y     int  // `json:"y"`
+}
+
+type update struct {
+	board   string   //`json:"board"`
+	players []player //`json:"players"`
+}
+
 func main() {
 	server, _ := socketio.NewServer(nil)
 
@@ -19,9 +31,9 @@ func main() {
 		return nil
 	})
 
-	server.OnEvent("/", "move", func(s socketio.Conn, move string) {
-		fmt.Println("move ", move)
-		server.BroadcastToRoom("/", "default", "heartbeat", move)
+	server.OnEvent("/", "move", func(s socketio.Conn, update update) {
+		fmt.Println("newBoard ", update)
+		server.BroadcastToRoom("/", "default", "heartbeat", update)
 	})
 
 	server.OnError("/", func(s socketio.Conn, e error) {
