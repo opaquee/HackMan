@@ -35,11 +35,11 @@ socket.on("connect", () => {
 });
 
 socket.on("playerJoined", (data) => {
-  if (id === -1) id = data; 
-  if(id === 100) {
+  if (id === -1) id = data;
+  if (id === 100) {
     x = 7;
     y = 7;
-  } else if(id === 101) {
+  } else if (id === 101) {
     x = 11;
     y = 7;
   } else if (id == 102) {
@@ -49,16 +49,18 @@ socket.on("playerJoined", (data) => {
 });
 
 socket.on("newBoard", (data) => {
-  data = data.replaceAll('\"', "");
+  data = data.replaceAll('"', "");
   map = JSON.parse(data);
   deleteMap();
   createMap();
 });
 
 socket.on("newPlayers", (data) => {
-  data = data.replaceAll('\"', "");
+  // TODO: Fix this
+  data = data.slice(1, -1);
   console.log(data);
-  players = JSON.parse(data);
+  players = JSON.parse(data) || "ha ga";
+  console.log(data);
   deleteMap();
   createMap();
 });
@@ -69,8 +71,8 @@ socket.on("disconnect", () => {
 
 const emitBoardUpdate = (board, players) => {
   socket.emit("newBoard", JSON.stringify(board));
-  socket.emit("newPlayers" , JSON.stringify(players))
-}
+  socket.emit("newPlayers", JSON.stringify(players));
+};
 
 let players = [
   {
@@ -100,7 +102,13 @@ const removeAllChildNodes = (parent) => {
 };
 
 const getPlayer = (id) => {
-  return players.find((x) => x.id == id);
+  if (id === 100) {
+    return players[0];
+  } else if (id === 101) {
+    return players[1];
+  } else if (id == 102) {
+    return players[2];
+  }
 };
 
 const pacmenLeft = () => {
@@ -186,7 +194,7 @@ document.addEventListener("keydown", (event) => {
     // Move pacman into ghost
     else if (
       x - 1 >= 0 &&
-      map[x-1][y] !== 1 &&
+      map[x - 1][y] !== 1 &&
       getPlayer(map[x - 1][y]).isGhost &&
       getPlayer(id).isGhost == false
     ) {
@@ -204,7 +212,7 @@ document.addEventListener("keydown", (event) => {
     // Move ghost into pacman
     else if (
       x - 1 >= 0 &&
-      map[x-1][y] !== 1 &&
+      map[x - 1][y] !== 1 &&
       !getPlayer(map[x - 1][y]).isGhost &&
       getPlayer(id).isGhost
     ) {
@@ -362,7 +370,7 @@ document.addEventListener("keydown", (event) => {
     }
   }
 
-  if(moved) {
+  if (moved) {
     emitBoardUpdate(JSON.stringify(map), JSON.stringify(players));
   }
 });
