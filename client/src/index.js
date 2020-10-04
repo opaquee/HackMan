@@ -24,8 +24,8 @@ let map = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 let id = -1;
-let x;
-let y;
+let x = -1;
+let y = -1;
 
 // Start sweb socket
 const socket = io("ws://localhost:8000");
