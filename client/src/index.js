@@ -1,7 +1,11 @@
 require("file-loader?name=[name].[ext]!../index.html");
+
+import "./utils/sockets";
+
 import pacmanImg from "../assets/sprites/pacman.png";
 import pinkGhost from "../assets/sprites/pink_ghost.png";
 import "../index.css";
+import { emitBoardUpdate } from "./utils/sockets";
 
 let map;
 let id;
@@ -126,6 +130,8 @@ const main = () => {
 };
 
 document.addEventListener("keydown", (event) => {
+  let moved = false;
+
   event.preventDefault();
   // Left
   if (event.keyCode === 37) {
@@ -136,6 +142,7 @@ document.addEventListener("keydown", (event) => {
       x--;
       map[x][y] = id;
       createMap();
+      moved = true;
     }
     // Move pacman into ghost
     else if (
@@ -153,6 +160,7 @@ document.addEventListener("keydown", (event) => {
       getPlayer(id).y = y;
       map[x][y] = id;
       createMap();
+      moved = true;
     }
     // Move ghost into pacman
     else if (
@@ -170,6 +178,7 @@ document.addEventListener("keydown", (event) => {
       map[x - 1][y] = id;
       map[7][7] = temp_id;
       createMap();
+      moved = true;
     }
   }
 
@@ -182,6 +191,7 @@ document.addEventListener("keydown", (event) => {
       y--;
       map[x][y] = id;
       createMap();
+      moved = true;
     }
     // Move into ghost
     else if (
@@ -198,6 +208,7 @@ document.addEventListener("keydown", (event) => {
       getPlayer(id).y = y;
       map[x][y] = id;
       createMap();
+      moved = true;
     }
     // Move ghost into pacman
     else if (
@@ -214,6 +225,7 @@ document.addEventListener("keydown", (event) => {
       map[x][y - 1] = id;
       map[7][7] = temp_id;
       createMap();
+      moved = true;
     }
   }
 
@@ -226,6 +238,7 @@ document.addEventListener("keydown", (event) => {
       x++;
       map[x][y] = id;
       createMap();
+      moved = true;
     }
     // Move into ghost
     else if (
@@ -242,6 +255,7 @@ document.addEventListener("keydown", (event) => {
       getPlayer(id).y = y;
       map[x][y] = id;
       createMap();
+      moved = true;
     }
     // Move ghost into pacman
     else if (
@@ -258,6 +272,7 @@ document.addEventListener("keydown", (event) => {
       map[x + 1][y] = id;
       map[7][7] = temp_id;
       createMap();
+      moved = true;
     }
   }
 
@@ -270,6 +285,7 @@ document.addEventListener("keydown", (event) => {
       y++;
       map[x][y] = id;
       createMap();
+      moved = true;
     }
     // Move into ghost
     else if (
@@ -286,6 +302,7 @@ document.addEventListener("keydown", (event) => {
       getPlayer(id).y = y;
       map[x][y] = id;
       createMap();
+      moved = true;
     }
     // Move ghost into pacman
     else if (
@@ -302,7 +319,12 @@ document.addEventListener("keydown", (event) => {
       map[x - 1][y] = id;
       map[7][7] = temp_id;
       createMap();
+      moved = true;
     }
+  }
+
+  if(moved) {
+    emitBoardUpdate(JSON.stringify(map), JSON.stringify(players));
   }
 });
 

@@ -1,5 +1,5 @@
-module github.com/opaquee/HackMan
+module HackMan
 
 go 1.15
 
-require github.com/gorilla/websocket v1.4.2
+require github.com/googollee/go-socket.io v1.4.4
