@@ -56,11 +56,9 @@ socket.on("newBoard", (data) => {
 });
 
 socket.on("newPlayers", (data) => {
-  // TODO: Fix this
-  data = data.slice(1, -1);
-  console.log(data);
-  players = JSON.parse(data) || "ha ga";
-  console.log(data);
+  players = JSON.parse(data);
+  players = JSON.parse(players);
+  console.log(players);
   deleteMap();
   createMap();
 });
