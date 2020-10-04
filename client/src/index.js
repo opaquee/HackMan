@@ -43,6 +43,23 @@ const getPlayer = (id) => {
   return players.find((x) => x.id == id);
 };
 
+const pacmenLeft = () => {
+  let pacmen = 0;
+  let id;
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].isGhost === false) {
+      pacmen++;
+      id = players[i].id;
+    }
+  }
+
+  if (pacmen == 1) {
+    alert("Player " + id + " wins!");
+  }
+
+  return pacmen;
+};
+
 const createMap = () => {
   for (let i = 0; i < map.length; i++) {
     const row = document.createElement("div");
@@ -80,6 +97,7 @@ const createMap = () => {
     }
     document.getElementById("map").append(row);
   }
+  document.getElementById("pacmen").innerText = "Pacmen Left: " + pacmenLeft();
 };
 
 const deleteMap = () => {
@@ -129,6 +147,7 @@ document.addEventListener("keydown", (event) => {
     // Move pacman into ghost
     else if (
       x - 1 >= 0 &&
+      map[x-1][y] !== 1 &&
       getPlayer(map[x - 1][y]).isGhost &&
       getPlayer(id).isGhost == false
     ) {
@@ -146,6 +165,7 @@ document.addEventListener("keydown", (event) => {
     // Move ghost into pacman
     else if (
       x - 1 >= 0 &&
+      map[x-1][y] !== 1 &&
       !getPlayer(map[x - 1][y]).isGhost &&
       getPlayer(id).isGhost
     ) {
