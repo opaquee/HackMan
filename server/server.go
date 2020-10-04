@@ -28,12 +28,12 @@ func main() {
 
 	server.OnEvent("/", "newBoard", func(s socketio.Conn, newBoard string) {
 		fmt.Println("newBoard ", newBoard)
-		server.BroadcastToRoom("/", "default", "heartbeat", newBoard)
+		server.BroadcastToRoom("/", "default", "newBoard", newBoard)
 	})
 
 	server.OnEvent("/", "newPlayers", func(s socketio.Conn, newPlayers string) {
 		fmt.Println("newPlayers ", newPlayers)
-		server.BroadcastToRoom("/", "default", "heartbeat", newPlayers)
+		server.BroadcastToRoom("/", "default", "newPlayers", newPlayers)
 	})
 
 	server.OnError("/", func(s socketio.Conn, e error) {
