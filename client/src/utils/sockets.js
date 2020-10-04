@@ -29,8 +29,10 @@ const move = (direction) => {
   }
 };
 
+export const emitBoardUpdate = (board, players) => {
+  socket.emit("newBoard", JSON.stringify(board));
+  socket.emit("newPlayers" , JSON.stringify(players))
+}
+
 const leftButton = document.getElementById("leftButton");
 const rightButton = document.getElementById("rightButton");
-
-leftButton.addEventListener("click", () => move("left"));
-rightButton.addEventListener("click", () => move("right"));

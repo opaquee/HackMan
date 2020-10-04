@@ -9,15 +9,10 @@ import (
 )
 
 type player struct {
-	id    int  // `json:"id"`
-	ghost bool // `json:"ghost"`
-	x     int  // `json:"x"`
-	y     int  // `json:"y"`
-}
-
-type update struct {
-	board   string   //`json:"board"`
-	players []player //`json:"players"`
+	id    int  //`json:"id"`
+	ghost bool //`json:"ghost"`
+	x     int  //`json:"x"`
+	y     int  //`json:"y"`
 }
 
 func main() {
@@ -31,13 +26,18 @@ func main() {
 		return nil
 	})
 
-	server.OnEvent("/", "move", func(s socketio.Conn, update update) {
-		fmt.Println("newBoard ", update)
-		server.BroadcastToRoom("/", "default", "heartbeat", update)
+	server.OnEvent("/", "newBoard", func(s socketio.Conn, newBoard string) {
+		fmt.Println("newBoard ", newBoard)
+		server.BroadcastToRoom("/", "default", "heartbeat", newBoard)
+	})
+
+	server.OnEvent("/", "newPlayers", func(s socketio.Conn, newPlayers string) {
+		fmt.Println("newPlayers ", newPlayers)
+		server.BroadcastToRoom("/", "default", "heartbeat", newPlayers)
 	})
 
 	server.OnError("/", func(s socketio.Conn, e error) {
-		fmt.Println("meet error:", e)
+		fmt.Println("error:", e)
 	})
 
 	server.OnDisconnect("/", func(s socketio.Conn, reason string) {
