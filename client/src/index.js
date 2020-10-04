@@ -1,16 +1,47 @@
 require("file-loader?name=[name].[ext]!../index.html");
-
-import "./utils/sockets";
+import io from "socket.io-client";
 
 import pacmanImg from "../assets/sprites/pacman.png";
 import pinkGhost from "../assets/sprites/pink_ghost.png";
 import "../index.css";
-import { emitBoardUpdate } from "./utils/sockets";
 
+// Initialize variables
 let map;
-let id;
+let id = -1;
 let x;
 let y;
+
+// Start sweb socket
+const socket = io("ws://localhost:8000");
+
+socket.on("connect", () => {
+  console.log("Client connected!");
+});
+
+socket.on("playerJoined", (data) => {
+  if (id !== -1) id = data;
+});
+
+socket.on("newBoard", (data) => {
+  map = JSON.parse(data);
+  deleteMap();
+  createMap();
+});
+
+socket.on("newPlayers", (data) => {
+  players = JSON.parse(data);
+  deleteMap();
+  createMap();
+});
+
+socket.on("disconnect", () => {
+  console.log("Client disconnected from server.");
+});
+
+const emitBoardUpdate = (board, players) => {
+  socket.emit("newBoard", JSON.stringify(board));
+  socket.emit("newPlayers" , JSON.stringify(players))
+}
 
 let players = [
   {
@@ -105,9 +136,6 @@ const deleteMap = () => {
 };
 
 const main = () => {
-  // Set player id
-  id = 100;
-
   map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -116,7 +144,7 @@ const main = () => {
     [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
-    [1, 0, 1, 1, 1, 1, 1, id, 1, 1, 1, 1, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 100, 1, 1, 1, 1, 0, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1],

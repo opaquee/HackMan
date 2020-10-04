@@ -16,12 +16,14 @@ type player struct {
 }
 
 func main() {
+	id := 100
 	server, _ := socketio.NewServer(nil)
 
 	server.OnConnect("/", func(s socketio.Conn) error {
 		s.SetContext("")
-		fmt.Println("connected: ", s.ID())
-		s.Emit("newPlayer", s.ID())
+		fmt.Println("connected: ", id)
+		server.BroadcastToRoom("/", "default", "playerJoined", id)
+		id++
 		s.Join("default")
 		return nil
 	})
