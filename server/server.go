@@ -13,26 +13,15 @@ func main() {
 
 	server.OnConnect("/", func(s socketio.Conn) error {
 		s.SetContext("")
-		fmt.Println("connected:", s.ID())
+		fmt.Println("connected: ", s.ID())
 		s.Emit("newPlayer", s.ID())
+		s.Join("default")
 		return nil
 	})
 
-	server.OnEvent("/", "move", func(s socketio.Conn, msg string) {
-		fmt.Println("notice:", msg)
-		s.Emit("reply", "have "+msg)
-	})
-
-	server.OnEvent("/chat", "msg", func(s socketio.Conn, msg string) string {
-		s.SetContext(msg)
-		return "recv " + msg
-	})
-
-	server.OnEvent("/", "bye", func(s socketio.Conn) string {
-		last := s.Context().(string)
-		s.Emit("bye", last)
-		s.Close()
-		return last
+	server.OnEvent("/", "move", func(s socketio.Conn, move string) {
+		fmt.Println("move ", move)
+		server.BroadcastToRoom("/", "default", "heartbeat", move)
 	})
 
 	server.OnError("/", func(s socketio.Conn, e error) {

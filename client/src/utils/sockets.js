@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-const socket = io("ws://localhost:8000/chat");
+const socket = io("ws://localhost:8000");
 
 socket.on("connect", () => {
   console.log("Client connected!");
@@ -19,10 +19,10 @@ const move = (direction) => {
   console.log(direction);
   switch (direction) {
     case "left":
-      socket.emit("msg", "onMoveLeft");
+      socket.emit("move", "left");
       break;
     case "right":
-      socket.emit("msg", "onMoveRight");
+      socket.emit("move", "right");
       break;
     default:
       break;
