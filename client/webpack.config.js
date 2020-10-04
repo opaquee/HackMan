@@ -20,9 +20,4 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      favicon: "./assets/logos/pacman-logo.png",
-    }),
-  ],
 };
