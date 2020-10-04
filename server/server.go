@@ -8,13 +8,6 @@ import (
 	socketio "github.com/googollee/go-socket.io"
 )
 
-type player struct {
-	id    int  //`json:"id"`
-	ghost bool //`json:"ghost"`
-	x     int  //`json:"x"`
-	y     int  //`json:"y"`
-}
-
 func main() {
 	id := 100
 	server, _ := socketio.NewServer(nil)
@@ -22,9 +15,9 @@ func main() {
 	server.OnConnect("/", func(s socketio.Conn) error {
 		s.SetContext("")
 		fmt.Println("connected: ", id)
+		s.Join("default")
 		server.BroadcastToRoom("/", "default", "playerJoined", id)
 		id++
-		s.Join("default")
 		return nil
 	})
 
